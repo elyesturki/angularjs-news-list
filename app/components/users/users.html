@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Filter (Total: {{filteredArticles.length}})</h3>
+                </div>
+                <div class="panel-body">
+                    <div ng-repeat="name in uc.getCategories()">
+                        <label>
+                          <input type="checkbox" ng-model="uc.filter[name]" />
+                          {{ name }}
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="col-md-9">
+            <!--  <div class="col-md-12" ng-repeat="article in uc.articles">-->
+            <div class="col-md-12" ng-repeat="article in (uc.articles | filter:uc.filterByCategory) as filteredArticles">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><a href="{{article.url}}" target="_blank">{{article.title}}</a></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 img">
+                                <span><a href="{{article.url}}" target="_blank"><img class="img-responsive" src="{{article.urlToImage}}" /></span></a>
+                            </div>
+                            <div class="col-md-8 description">
+                                <strong>{{article.date}}</strong> <i style="font-size: 80%">({{article.heure}})</i> | <strong>Source:</strong> <a href="http://{{article.source.name}}" target="_blank">{{article.source.name}}</a> <br><br>
+                                <span>{{article.description}}</span>
+                            </div>
+                            <div class="col-md-12 read-more text-right">
+                                <span>> <a href="{{article.url}}" target="_blank">Lire la suite</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

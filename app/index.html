@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Unit testing basic AngularJS app with Karma + Jasmine">
+    <meta name="author" content="Lenin Meza">
+
+    <base href="./">
+
+    <title>AngularJS API News</title>
+
+    <!--Bootstrap and our app css file-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="app.css">
+
+    <script src="https://underscorejs.org/underscore.js"></script>
+    <!--AngularJS and ui-router dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+
+    <!-- AngularJS App -->
+    <script src="services/users/users.js"></script>
+    <script src="services/posts/posts.js"></script>
+    <script src="components/users/users.js"></script>
+    <script src="filters/capitalize/capitalize.js"></script>
+    <script src="app.js"></script>
+    <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>-->
+    <script>
+        // Needed for Filterizr support on IE11
+        // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+        if (!String.prototype.includes) {
+            String.prototype.includes = function(search, start) {
+                'use strict';
+                if (typeof start !== 'number') {
+                    start = 0;
+                }
+
+                if (start + search.length > this.length) {
+                    return false;
+                } else {
+                    return this.indexOf(search, start) !== -1;
+                }
+            };
+        }
+
+        // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
+        // https://tc39.github.io/ecma262/#sec-array.prototype.includes
+        if (!Array.prototype.includes) {
+            Object.defineProperty(Array.prototype, 'includes', {
+                value: function(searchElement, fromIndex) {
+
+                    if (this == null) {
+                        throw new TypeError('"this" is null or not defined');
+                    }
+
+                    // 1. Let O be ? ToObject(this value).
+                    var o = Object(this);
+
+                    // 2. Let len be ? ToLength(? Get(O, "length")).
+                    var len = o.length >>> 0;
+
+                    // 3. If len is 0, return false.
+                    if (len === 0) {
+                        return false;
+                    }
+
+                    // 4. Let n be ? ToInteger(fromIndex).
+                    //    (If fromIndex is undefined, this step produces the value 0.)
+                    var n = fromIndex | 0;
+
+                    // 5. If n ≥ 0, then
+                    //  a. Let k be n.
+                    // 6. Else n < 0,
+                    //  a. Let k be len + n.
+                    //  b. If k < 0, let k be 0.
+                    var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+                    function sameValueZero(x, y) {
+                        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+                    }
+
+                    // 7. Repeat, while k < len
+                    while (k < len) {
+                        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+                        // b. If SameValueZero(searchElement, elementK) is true, return true.
+                        if (sameValueZero(o[k], searchElement)) {
+                            return true;
+                        }
+                        // c. Increase k by 1. 
+                        k++;
+                    }
+
+                    // 8. Return false
+                    return false;
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        // https://tc39.github.io/ecma262/#sec-array.prototype.find
+        if (!Array.prototype.find) {
+            Object.defineProperty(Array.prototype, 'find', {
+                value: function(predicate) {
+                    // 1. Let O be ? ToObject(this value).
+                    if (this == null) {
+                        throw new TypeError('"this" is null or not defined');
+                    }
+
+                    var o = Object(this);
+
+                    // 2. Let len be ? ToLength(? Get(O, "length")).
+                    var len = o.length >>> 0;
+
+                    // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+                    if (typeof predicate !== 'function') {
+                        throw new TypeError('predicate must be a function');
+                    }
+
+                    // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+                    var thisArg = arguments[1];
+
+                    // 5. Let k be 0.
+                    var k = 0;
+
+                    // 6. Repeat, while k < len
+                    while (k < len) {
+                        // a. Let Pk be ! ToString(k).
+                        // b. Let kValue be ? Get(O, Pk).
+                        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+                        // d. If testResult is true, return kValue.
+                        var kValue = o[k];
+                        if (predicate.call(thisArg, kValue, k, o)) {
+                            return kValue;
+                        }
+                        // e. Increase k by 1.
+                        k++;
+                    }
+
+                    // 7. Return undefined.
+                    return undefined;
+                },
+                configurable: true,
+                writable: true
+            });
+        }
+    </script>
+
+</head>
+
+<body ng-app="angularApp">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand">AngularJS API News</a>
+            </div>
+        </div>
+    </nav>
+    <div ui-view></div>
+</body>
+
+</html>
