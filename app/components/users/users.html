@@ -1,5 +1,26 @@
 <div class="container">
     <div class="row">
+    <div class="col-md-8"></div>
+        <div class="col-md-4">
+        <table class="text-right" style="margin-right: 15px">
+            <tr>
+                <td width="40%">Search : 
+                    <input ng-model="uc.query[uc.queryBy]" />
+                </td>
+               <!-- <td width="10%"></td>          
+                <td width="40%">Search By : 
+                    <select ng-model="uc.queryBy">
+                        <option value="$"></option>
+                        <option value="title">Title</option>
+                        <option value="description">Description</option>
+                    </select>  
+                </td>-->
+            </tr>
+        </table>
+        </div>
+        <hr>
+    </div>
+    <div class="row">
         <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -20,7 +41,7 @@
 
         <div class="col-md-9">
             <!--  <div class="col-md-12" ng-repeat="article in uc.articles">-->
-            <div class="col-md-12" ng-repeat="article in (uc.articles | filter:uc.filterByCategory) as filteredArticles">
+            <div class="col-md-12" ng-repeat="article in (uc.articles | filter:uc.filterByCategory | filter:uc.query) as filteredArticles">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title"><a href="{{article.url}}" target="_blank">{{article.title}}</a></h3>
@@ -28,7 +49,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4 img">
-                                <span><a href="{{article.url}}" target="_blank"><img class="img-responsive" src="{{article.urlToImage}}" /></span></a>
+                                <span><a href="{{article.url}}" target="_blank"><img class="img-responsive" ng-src="{{article.urlToImage}}" /></span></a>
                             </div>
                             <div class="col-md-8 description">
                                 <strong>{{article.date}}</strong> <i style="font-size: 80%">({{article.heure}})</i> | <strong>Source:</strong> <a href="http://{{article.source.name}}" target="_blank">{{article.source.name}}</a> <br><br>

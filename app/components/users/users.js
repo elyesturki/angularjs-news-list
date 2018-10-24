@@ -50,6 +50,11 @@
                 }
 
                 console.log("getCategories: ", getCategories())
+
+                ///search filter
+                vm.query = {};
+                vm.queryBy = '$';
+                vm.orderProp="title";
             });
         }])
         .config(function($stateProvider) {
