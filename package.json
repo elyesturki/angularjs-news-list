@@ -6,7 +6,7 @@
     "scripts": {
         "test": "npm run jshint && karma start",
         "lint": "eslint . --fix",
-        "start": "nodemon server.js",
+        "start": "gulp watch",
         "jshint": "jshint --verbose ./docs/components/users/users.js"
     },
     "keywords": [],
@@ -22,8 +22,18 @@
         "@uirouter/angularjs": "^1.0.5",
         "angular": "~1.5.9",
         "angular-mocks": "~1.5.9",
+        "browser-sync": "^2.26.3",
         "eslint": "^4.2.0",
         "eslint-config-google": "^0.9.1",
+        "gulp-clean": "^0.4.0",
+        "gulp-clean-css": "^3.10.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-connect": "^5.6.1",
+        "gulp-htmlmin": "^5.0.1",
+        "gulp-imagemin": "^4.1.0",
+        "gulp-sourcemaps": "^2.6.4",
+        "gulp-strip-css-comments": "^2.0.0",
+        "gulp-uglify": "^3.0.1",
         "jasmine-core": "^2.6.4",
         "jshint": "^2.9.6",
         "karma": "^1.7.0",
@@ -36,6 +46,8 @@
         "karma-spec-reporter": "0.0.31",
         "lodash": "^4.17.4",
         "nodemon": "^1.11.0",
-        "phantomjs": "^2.1.1"
+        "phantomjs": "^2.1.1",
+        "run-sequence": "^2.2.1",
+        "vinyl-source-stream": "^2.0.0"
     }
 }
